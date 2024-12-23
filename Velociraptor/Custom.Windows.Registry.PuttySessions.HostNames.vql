@@ -1,0 +1,36 @@
+name: Custom.Windows.Registry.PuttySessions.HostNames
+author: Sudesh Yalavarthi
+description: |
+   This artifact extracts PuTTY SSH HostNames excluding Default Settings.
+   
+type: CLIENT
+
+parameters:
+   - name: KeyGlob
+     default: Software\SimonTatham\Putty\Sessions\*\HostName
+   - name: TargetUser
+     default: .
+   - name: TargetKeyName
+     default: .
+   - name: TargetKeyValue
+     default: .
+
+sources:
+  - precondition:
+      SELECT OS From info() where OS = 'windows' 
+
+    query: |
+      SELECT 
+        Mtime,
+        Username,
+        OSPath.Basename AS KeyName,
+        Data.value AS KeyValue,
+        OSPath.DelegatePath AS SourcePath
+      FROM Artifact.Windows.Registry.NTUser(
+        KeyGlob=KeyGlob,
+        userRegex=TargetUser
+      )
+      WHERE 
+        KeyName =~ TargetKeyName AND 
+        KeyValue =~ TargetKeyValue AND
+        NOT OSPath.Path =~ "SOFTWARE\\\\SimonTatham\\\\PuTTY\\\\Sessions\\\\Default%20Settings"
