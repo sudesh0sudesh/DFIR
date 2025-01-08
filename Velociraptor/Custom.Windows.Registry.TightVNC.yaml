@@ -1,0 +1,39 @@
+name: Custom.Windows.Registry.TightVNC
+author: Sudesh Yalavarthi
+description: |
+   This artifact extracts TightVNC registry keys
+   
+type: CLIENT
+
+parameters:
+   - name: KeyGlob
+     default: Software\TightVNC\Server\*
+     description: The registry path for TightVNC
+   - name: TargetUser
+     default: .
+     description: Filter by specific username (regex)
+   - name: TargetKeyName
+     default: .
+     description: Filter by specific key name (regex)
+   - name: TargetKeyValue
+     default: .
+     description: Filter by specific key value (regex)
+
+sources:
+  - precondition:
+      SELECT OS From info() where OS = 'windows' 
+
+    query: |
+      SELECT 
+        Mtime,
+        Username,
+        OSPath.Basename AS KeyName,
+        Data.value AS KeyValue,
+        OSPath.DelegatePath AS SourcePath
+      FROM Artifact.Windows.Registry.NTUser(
+        KeyGlob=KeyGlob,
+        userRegex=TargetUser
+      )
+      WHERE 
+        KeyName =~ TargetKeyName AND 
+        KeyValue =~ TargetKeyValue 
