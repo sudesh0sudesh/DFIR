@@ -9,7 +9,7 @@ This directory contains scripts, tools, and documentation related to Digital For
 - **Examples**: Sample output files and usage examples.
 
 ## Tools
-- Aftermath from Jamf(Compiled and signed binary) can be executed directly
+- Aftermath from Jamf(Compiled and signed binary) can be executed directly [link](Aftermath.md)
 
 ## Contribution
 
