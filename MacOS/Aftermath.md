@@ -16,7 +16,7 @@
 
 ## 2. Download & Prepare the Binary
 
-- Download the latest binary from the [Releases page](https://github.com/jamf/aftermath/releases).
+- Download the latest binary from this folder (Compiled from official Aftermath git and signed using certificate)
 - Transfer the binary to the target Mac (e.g., using scp, AirDrop, or USB).
 - Make it executable:
   ```sh
